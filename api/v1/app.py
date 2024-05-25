@@ -9,7 +9,9 @@ from api.v1.views import app_views
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-CORS(app, resources={'/*': {'origins': '5000'}})
+host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+port = int(os.getenv('HBNB_API_PORT', '5000'))
+CORS(app, resources={'/*': {'origins': port}})
 
 
 @app.teardown_appcontext
@@ -18,5 +20,12 @@ def teardown_db(exception):
     storage.close()
 
 
+# app name
+@app.errorhandler(404)
+def not_found():
+    """Handles routes that do not go anywhere"""
+    return jsonify(error="not found"), 404
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000', threaded=True)
+    app.run(host=host, port=port, threaded=True)
