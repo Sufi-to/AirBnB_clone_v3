@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Script that contains the routes to the database"""
-from api.v1.views import app_views
 from flask import jsonify
+from api.v1.views import app_views
 from models import storage
 
 
