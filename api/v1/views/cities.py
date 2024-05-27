@@ -26,7 +26,7 @@ def one_city(city_id):
     return jsonify(city.to_dict())
 
 
-@app_views.route('/cities/,city_id>',
+@app_views.route('/cities/<city_id>',
                  methods=['DELETE'], strict_slashes=False)
 def rem_city(city_id):
     """Deletes the state with the particular id"""
