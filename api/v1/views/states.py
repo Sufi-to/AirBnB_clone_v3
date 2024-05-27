@@ -25,7 +25,7 @@ def one_state(state_id):
 @app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
 def rem_state(state_id):
-    """Returns the state with the particular id"""
+    """Deletes the state with the particular id"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
