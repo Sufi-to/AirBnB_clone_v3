@@ -51,6 +51,7 @@ def add_city(state_id):
     if 'name' not in new_city:
         abort(400, 'Missing name')
     city = City(**new_city)
+    setattr(city, 'state_id', state_id)
     storage.new(city)
     storage.save()
     return make_response(jsonify(city.to_dict()), 201)
