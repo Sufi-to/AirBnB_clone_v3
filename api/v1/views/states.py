@@ -14,7 +14,7 @@ def states():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def state(state_id):
+def one_state(state_id):
     """Returns the state with the particular id"""
     state = storage.get(State, state_id)
     if not state:
@@ -24,7 +24,7 @@ def state(state_id):
 
 @app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
-def state(state_id):
+def rem_state(state_id):
     """Returns the state with the particular id"""
     state = storage.get(State, state_id)
     if not state:
@@ -35,7 +35,7 @@ def state(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
-def state():
+def add_state():
     """Posts the new state to storage and return a 201 status if succesful"""
     new_state = request.get_json()
     if not new_state:
