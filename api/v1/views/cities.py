@@ -7,10 +7,10 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/cities/<state_id>/cities',
+@app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def cities(state_id):
-    """Returns all the states in the database"""
+    """Returns all the cities in the database"""
     city_state = storage.get(State, state_id)
     if not city_state:
         abort(404)
@@ -29,7 +29,7 @@ def one_city(city_id):
 @app_views.route('/cities/city_id',
                  methods=['DELETE'], strict_slashes=False)
 def rem_city(city_id):
-    """Returns the state with the particular id"""
+    """Deletes the state with the particular id"""
     city = storage.get(City, city_id)
     if not city:
         abort(404)
@@ -50,7 +50,7 @@ def add_city(state_id):
         abort(400, "Not a JSON")
     if 'name' not in new_city:
         abort(400, 'Missing name')
-    city = State(**new_city)
+    city = City(**new_city)
     storage.new(city)
     storage.save()
     return make_response(jsonify(city.to_dict()), 201)
@@ -58,18 +58,15 @@ def add_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def put_city(city_id):
-    """Updates a State object"""
-    city = storage.get(State, city_id)
+    """Updates a city object"""
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
-
     req = request.get_json()
     if not req:
         abort(400, "Not a JSON")
-
     for key, value in req.items():
         if key not in ['id', 'created_at', 'state_id', 'updated_at']:
             setattr(city, key, value)
-
     storage.save()
     return make_response(jsonify(city.to_dict()), 200)
