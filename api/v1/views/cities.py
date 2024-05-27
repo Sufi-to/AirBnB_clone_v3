@@ -14,7 +14,7 @@ def cities(state_id):
     city_state = storage.get(State, state_id)
     if not city_state:
         abort(404)
-    return jsonify([city.to_dict() for city in city_state.values()])
+    return jsonify([city.to_dict() for city in city_state.cities()])
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -26,7 +26,7 @@ def one_city(city_id):
     return jsonify(city.to_dict())
 
 
-@app_views.route('/cities/city_id',
+@app_views.route('/cities/,city_id>',
                  methods=['DELETE'], strict_slashes=False)
 def rem_city(city_id):
     """Deletes the state with the particular id"""
@@ -42,7 +42,7 @@ def rem_city(city_id):
                  methods=['POST'], strict_slashes=False)
 def add_city(state_id):
     """Posts a new city using a post request"""
-    state = storage.all(State, state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     new_city = request.get_json()
