@@ -34,12 +34,12 @@ def rem_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    storage.delete()
+    place.delete()
     storage.save()
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('api/v1/cities/<city_id>/places',
+@app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
 def post_place(city_id):
     """Posts a new place using an http post request"""
@@ -52,8 +52,8 @@ def post_place(city_id):
     if 'user_id' not in req_place:
         abort(400, 'Missing user_id')
     u_id = req_place['user_id']
-    user_id = storage.get(User, user_id)
-    if not u_id:
+    user_id = storage.get(User, u_id)
+    if not user_id:
         abort(404)
     if 'name' not in req_place:
         abort(400, 'Missing name')
